@@ -1,5 +1,6 @@
 (function($){
     canvas.addEventListener('mousedown',function(evt){
+        $("#btnUndo").attr("disabled",false);
 		var mousepos = getMousePos(canvas,evt),ocolor = '#'+$('.color').val();
 		buttonPushed = true;
 		imageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
@@ -277,7 +278,9 @@
         loadImage();
     });
     $("#btnUndo").click(function(){
-        clearRect();
+        //clearRect();
+        console.log("btn undo invoked");
+        context.clearRect(0,0,canvas.width,canvas.height);
         context.putImageData(imageData, 0, 0);
         $(this).attr('disabled',true)
     });
