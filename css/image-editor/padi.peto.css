@@ -1,0 +1,19 @@
+.pointer{cursor:pointer}
+.mycanvas{border:1px solid black}
+ul.buttons{list-style-type:'none'}
+.block-fluid.tabs{
+    background-color: aquamarine;
+    border-color: black;
+    border: 1cm;
+    margin-left: auto;
+    margin-right: auto;
+}
+#mycanvas{
+    background-color: white;
+}
+.tool-buttons button{
+    color: blue;
+}
+#textToWrite{
+    color: black;
+}

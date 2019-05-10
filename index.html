@@ -28,11 +28,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link rel="stylesheet" href="css/image-editor/padi.peto.css" />
 </head>
 
 <body id="page-top" class="index">
-
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -84,40 +83,62 @@
             </div>
         </div>
     </header>
-    <!-- Portfolio Grid Section -->
-    <section id="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Portfolio</h2>
-                    <hr class="star-primary">
+    <!-- Fun Section -->
+    <section class="success" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Image Editor</h2>
+                        <hr class="star-light">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 tool-buttons">
+                        <p>
+                            <button id="btnLine" class="pointer">Garis</button>
+                            <button id="btnArrow" class="pointer">Panah</button>
+                        </p>
+                        <p>
+                            <button id="btnCurve" class="pointer">Kurva 1</button>
+                            <button id="btnCounterCurve" class="pointer">Kurva 2</button>
+                        </p>
+                        <p>
+                            <button id="btnCurveWithArrow" class="pointer">Kurva panah 1</button>
+                            <button id="btnCounterCurveWithArrow" class="pointer">Kurva panah 2</button>
+                        </p>
+                        <p>
+                            <button id="btnCallout1" class="pointer">Callout 1</button>
+                            <button id="btnCallout2" class="pointer">Callout 2</button>
+                        </p>
+                        <p>
+                            <button id="btnShout1" class="pointer">Shout</button>
+                            <button id="btnThinking1" class="pointer">Think</button>
+                        </p>
+                        <p>
+                            <button id="btnFreeDrag" class="pointer">Gambar bebas</button>
+                            <button id="btnRoundedRectangle" class="pointer">Kotak 1</button>
+                        </p>
+                        <p>
+                            <button id="btnCircle" class="pointer">Circle</button>
+                            <button id="btnRectangle" class="pointer">Kotak 2</button>
+                        </p>
+                        <p>
+                            <input id="picker_" class="color">
+                            <input id="textToWrite" placeholder="" value="Puji"/>
+                            <button id="btnText" class="pointer">Text</button>
+                        </p>
+                        <p>
+                            <button class="btn" id="btnuploader">Upload<span class="ws-upload"></span></button>
+                            <input type="file" id="btnLoadImage"/>
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="mycanvas" class="pointer" width="800" height="800"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6 portfolio-item">
-                    <a href="https://github.com/pujie/contacts" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="https://raw.githubusercontent.com/pujie/contacts/master/assets/contacts.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-6 portfolio-item">
-                    <a href="https://github.com/pujie/petosyarif/" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="https://raw.githubusercontent.com/pujie/petosyarif/master/img/paint-brush128.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- About Section -->
+        </section>
+        <!-- About Section -->
     <section class="success" id="about">
         <div class="container">
             <div class="row">
@@ -429,7 +450,10 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/freelancer.js"></script>
-
+    <script src="js/image-editor/padi.peto.js"></script>
+    <script src="js/image-editor/stamps.js"></script>
+    <script src="js/image-editor/padi.events.js"></script>
+    <script src="js/image-editor/jscolor.js"></script>
 </body>
 
 </html>
