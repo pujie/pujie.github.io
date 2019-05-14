@@ -375,6 +375,17 @@
         var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
         window.location.href=image;*/
     });
+    $("#btnLoadImageFitWidth").change(function(evt){
+        var input = evt.target,
+            filereader = new FileReader();
+        filereader.onloadend = function(){
+            console.log('filereaderresult',filereader.result);
+            resizeImage2(filereader.result,canvas.width,result => {
+                imgsrc = result
+            })
+        }
+        filereader.readAsDataURL(input.files[0]);
+    });
     $("#btnLoadImage").change(function(evt){
         var input = evt.target,
             filereader = new FileReader();
@@ -389,6 +400,11 @@
         mycursor = "uploadimage";
         $("#btnLoadImage").click();
     });
+    $("#btnuploaderfitwidth").click(function(){
+        mycursor = "uploadimage";
+        $("#btnLoadImageFitWidth").click();
+    });
+    
     $('.stampsize').click(function(){
         console.log('stampsize',$(this).attr('value'));
         switch($(this).attr('value')){

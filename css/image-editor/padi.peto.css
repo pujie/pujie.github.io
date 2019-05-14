@@ -17,3 +17,6 @@ ul.buttons{list-style-type:'none'}
 #textToWrite{
     color: black;
 }
+#btnLoadImageFitWidth{
+    display: none;
+}
