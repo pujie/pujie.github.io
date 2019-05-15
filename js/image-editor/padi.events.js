@@ -436,10 +436,10 @@
     }, false);
     */
     disableScroll = function(){
-        $(body).css('overflow','hidden');
+        $("#page-top").css('overflow','hidden');
     }
     enableScroll = function(){
-        $(body).css('overflow','auto');
-        $(body).css('overflow-x','visible');
+        $("#page-top").css('overflow','auto');
+        $("#page-top").css('overflow-x','visible');
     }
 }(jQuery))
