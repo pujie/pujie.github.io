@@ -419,14 +419,14 @@
                 break;
         }
     });
-    document.addEventListener("touchstart", function(e){
+    canvas.addEventListener("touchstart", function(e){
         startX = e.touches[0].pageX;
         startY = e.touches[0].pageY;
     
         e.preventDefault();//Stops the default behavior
     }, false);
     
-    document.addEventListener("touchend", function(e){
+    canvas.addEventListener("touchend", function(e){
         endX = e.touches[0].pageX;
         endY = e.touches[0].pageY;
     
