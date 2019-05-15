@@ -89,7 +89,8 @@
 			case "shout1":
 				drawStamp(mousepos,ocolor,shout1);
 				break;
-		}
+        }
+        disableScroll();
 	});
 	canvas.addEventListener('mousemove',function(evt){
 		var mousepos = getMousePos(canvas,evt),ocolor = '#'+$(".color").val();
@@ -272,6 +273,7 @@
                 drawStamp(mousepos,ocolor,shout1);
                 break;
         }
+        enableScroll();
     });
     $("#btnClear").click(function(){
         context.clearRect(0,0,canvas.width,canvas.height);
@@ -419,7 +421,7 @@
                 break;
         }
     });
-    canvas.addEventListener("touchstart", function(e){
+    /*canvas.addEventListener("touchstart", function(e){
         startX = e.touches[0].pageX;
         startY = e.touches[0].pageY;
     
@@ -432,4 +434,12 @@
     
         e.preventDefault();//Stops the default behavior
     }, false);
+    */
+    disableScroll = function(){
+        $(body).css('overflow','hidden');
+    }
+    enableScroll = function(){
+        $(body).css('overflow','auto');
+        $(body).css('overflow-x','visible');
+    }
 }(jQuery))
