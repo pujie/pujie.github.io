@@ -90,7 +90,6 @@
 				drawStamp(mousepos,ocolor,shout1);
 				break;
         }
-        disableScroll();
 	});
 	canvas.addEventListener('mousemove',function(evt){
 		var mousepos = getMousePos(canvas,evt),ocolor = '#'+$(".color").val();
@@ -273,7 +272,6 @@
                 drawStamp(mousepos,ocolor,shout1);
                 break;
         }
-        enableScroll();
     });
     canvas.addEventListener("touchstart",  function(event) {
         event.preventDefault()
