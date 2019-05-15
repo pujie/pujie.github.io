@@ -275,6 +275,22 @@
         }
         enableScroll();
     });
+    canvas.addEventListener("touchstart",  function(event) {
+        event.preventDefault()
+        disableScroll();
+    })
+    canvas.addEventListener("touchmove",   function(event) {
+        event.preventDefault()
+        disableScroll();
+    })
+    canvas.addEventListener("touchend",    function(event) {
+        event.preventDefault()
+        enableScroll();
+    })
+    canvas.addEventListener("touchcancel", function(event) {
+        event.preventDefault()
+        enableScroll();
+    })
     $("#btnClear").click(function(){
         context.clearRect(0,0,canvas.width,canvas.height);
         loadImage();
