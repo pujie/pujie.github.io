@@ -152,9 +152,28 @@ drawStamp = function(mousepos,ocolor,stamp){
 		stampwidth = 600;stampheight = 340;
 		break;			
 	}
-	startX = mousepos.x-(stampwidth/2);
-	startY = mousepos.y-(stampheight/2);		
-	context.drawImage(img,startX,startY,stampwidth,stampheight);
+	inspectFlip(mousepos,stampwidth,stampheight, result => {
+		console.log("Result",result);
+		context.drawImage(img,result.startX,result.startY,stampwidth,stampheight);
+	})
+}
+inspectFlip = function(mousepos,stampwidth,stampheight,callback){
+	console.log("mousepos",mousepos);
+	if ($("#fliphor").is(":checked")){
+		startX = mousepos.x+(stampwidth/2);
+		startY = mousepos.y-(stampheight/2);
+		context.scale(-1,1);
+		_startX = -1*startX
+		_startY = startY;
+
+	}else{
+		startX = mousepos.x-(stampwidth/2);
+		startY = mousepos.y-(stampheight/2);		
+		context.scale(1,1);
+		_startX = startX;
+		_startY = startY;
+	}
+	callback({startX:_startX,startY:_startY});
 }
 drawUploaded = function(mousepos,ocolor,stamp){
 	context.beginPath();
@@ -167,7 +186,6 @@ drawUploaded = function(mousepos,ocolor,stamp){
 	context.drawImage(img,startX,startY);
 }
 drawText = function(startX,startY,mousepos,ocolor){
-	//clearRect();
 	context.putImageData(imageData, 0, 0);
 	context.save();
 	th = mousepos.x - startX;
@@ -204,6 +222,7 @@ getDegree = function(startX,startY,endX,endY){
 	return out;
 }
 drawArrow = function(startx,starty,endx,endy,arrowangle,ocolor){
+	console.log("Arrow","StarX",startx,"StartY",starty,"EndX",endx,"EndY",endy);
 	context.strokeStyle=ocolor;
 	angle = getDegree(startx,starty,endx,endy);
 	radius = getRadius(startx,starty,endx,endy);
@@ -257,9 +276,9 @@ drawRoundedRectangle = function(mousepos,ocolor){
 	}
 	if (angle>-180 && angle <-90){
 		makeroundedcorner(startX+margin,startY-margin,startX,startY,ocolor);
-		makeroundedcorner(startX+margin,mousepos.y+margin,startX,mousepos.y,ocolor);//ok
-		makeroundedcorner(mousepos.x,startY-margin,mousepos.x+margin,startY,ocolor);//ok
-		makeroundedcorner(mousepos.x,mousepos.y+margin,mousepos.x+margin,mousepos.y,ocolor);//ok
+		makeroundedcorner(startX+margin,mousepos.y+margin,startX,mousepos.y,ocolor);
+		makeroundedcorner(mousepos.x,startY-margin,mousepos.x+margin,startY,ocolor);
+		makeroundedcorner(mousepos.x,mousepos.y+margin,mousepos.x+margin,mousepos.y,ocolor);
 		context.moveTo(startX+margin,startY-margin);
 		context.lineTo(startX+margin,mousepos.y+margin);
 		context.stroke();
