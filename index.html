@@ -103,18 +103,15 @@
                             <input id="textToWrite" placeholder="" value="Puji"/>
                             <button id="btnText" class="pointer">Text</button>
                         </p>
-                        <p>
+                        <button id="toggleBalon">Garis</button>
+                        <div id="grupGaris" style="display: none;">
                             <button id="btnLine" class="pointer">Garis</button>
                             <button id="btnArrow" class="pointer">Panah</button>
-                        </p>
-                        <p>
                             <button id="btnCurve" class="pointer">Kurva 1</button>
                             <button id="btnCounterCurve" class="pointer">Kurva 2</button>
-                        </p>
-                        <p>
                             <button id="btnCurveWithArrow" class="pointer">Kurva panah 1</button>
                             <button id="btnCounterCurveWithArrow" class="pointer">Kurva panah 2</button>
-                        </p>
+                        </div>
                         <button id="toggleBalon">Balon</button>
                         <div id="grupBalon" style="display: none;">
                             <button id="btnCallout1" class="pointer">Callout 1</button>
@@ -475,6 +472,9 @@
         })
         $('#toggleBalon').on("click",function(){
             $("#grupBalon").toggle()
+        })
+        $('#toggleGaris').on("click",function(){
+            $("#grupGaris").toggle()
         })
         
     </script>
