@@ -135,7 +135,7 @@
                             <input type="file" id="btnLoadImageFitWidth"/>
                         </p>
                         <button id="toggleKotak">Kotak</button>
-                        <div id="grupkotak">
+                        <div id="grupKotak">
                             <button id="btnRectangle" class="pointer">Kotak 2</button>
                             <button id="btnRoundedRectangle" class="pointer">Kotak Bundar</button>
                         </div>
@@ -470,6 +470,11 @@
     <script src="js/image-editor/stamps.js"></script>
     <script src="js/image-editor/padi.events.js"></script>
     <script src="js/image-editor/jscolor.js"></script>
+    <script>
+        $('#toggleKotak').on("click",function(){
+            $("#grupKotak").toggle()
+        })
+    </script>
 </body>
 
 </html>
