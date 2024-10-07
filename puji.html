@@ -454,7 +454,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
+            <a class="nav-link" id="test">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Gallery
@@ -907,5 +907,29 @@
 <script src="js/image-editor/stamps.js"></script>
 <script src="js/image-editor/padi.events.js"></script>
 <script src="js/image-editor/jscolor.js"></script>
+<script>
+    drawPolygon = obj => {
+        context.beginPath();
+		context.moveTo(obj.dots[0], obj.dots[1]);
+		for(item = 2; item < obj.dots.length-1; item += 2 ){
+			context.lineTo( obj.dots[item] , obj.dots[item+1] )
+		}
+        context.fillStyle = obj.color
+        context.fill()
+		context.closePath();
+		context.stroke();
+    }
+    $('#test').on('click',function(){
+        console.log('test yes')
+        var surabaya = [50,50, 100,50, 50,100],
+        banyuwangi = [150,50, 200,50, 250,100],
+        sidoarjo = [50,50, 100,50, 110,75, 130,90, 100,120, 90,140, 80,120 ];
+
+        drawPolygon({dots:banyuwangi,color:'green'})
+        drawPolygon({dots:sidoarjo,color:'pink'})
+        drawPolygon({dots:surabaya,color:'red'})
+
+    })
+</script>
 </body>
 </html>
