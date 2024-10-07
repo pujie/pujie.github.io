@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Pace</title>
+  <title>Image Editor | Puji</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -177,13 +177,8 @@
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
+        <div class="input-group" data-widget="sidebar-searchx">
+        <input id="picker_" class="color">
         </div>
       </div>
 
@@ -222,11 +217,11 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="../widgets.html" class="nav-link">
+            <a  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
+                Panah
+                <span class="right badge badge-danger" id="btnFreeDrag">New</span>
               </p>
             </a>
           </li>
@@ -867,9 +862,7 @@
           </div>
         </div>
         <div class="card-body">
-          You can Change Pace Styles, Checkout the <a href="https://adminlte.io/docs/3.1/" target="_blank" rel="noopener noreferrer">AdminLTE Official Docs</a> in Online.
-          <br>
-          Start creating your amazing application!
+          <canvas id="mycanvas" class="pointer" width="1600" height="1600"></canvas>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -909,5 +902,10 @@
 <script src="./adminlte/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="./adminlte/dist/js/demo.js"></script>
+<script src="js/image-editor/padi.imagelibs.js"></script>
+<script src="js/image-editor/padi.peto.js"></script>
+<script src="js/image-editor/stamps.js"></script>
+<script src="js/image-editor/padi.events.js"></script>
+<script src="js/image-editor/jscolor.js"></script>
 </body>
 </html>

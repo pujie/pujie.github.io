@@ -786,9 +786,9 @@ var jscolor = {
 				case 0: var padImg = 'hs.png'; break;
 				case 1: var padImg = 'hv.png'; break;
 			}
-			p.padM.style.backgroundImage = "url('"+jscolor.getDir()+"cross.gif')";
+			//p.padM.style.backgroundImage = "url('"+jscolor.getDir()+"cross.png')";
 			p.padM.style.backgroundRepeat = "no-repeat";
-			p.sldM.style.backgroundImage = "url('"+jscolor.getDir()+"arrow.gif')";
+			//p.sldM.style.backgroundImage = "url('"+jscolor.getDir()+"arrow.png')";
 			p.sldM.style.backgroundRepeat = "no-repeat";
 			p.pad.style.backgroundImage = "url('"+jscolor.getDir()+padImg+"')";
 			p.pad.style.backgroundRepeat = "no-repeat";
@@ -998,8 +998,8 @@ var jscolor = {
 			case 0: jscolor.requireImage('hs.png'); break;
 			case 1: jscolor.requireImage('hv.png'); break;
 		}
-		jscolor.requireImage('cross.gif');
-		jscolor.requireImage('arrow.gif');
+		//jscolor.requireImage('cross.png');
+		//jscolor.requireImage('arrow.png');
 
 		this.importColor();
 	}
