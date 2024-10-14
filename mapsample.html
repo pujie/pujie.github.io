@@ -1,0 +1,312 @@
+<html>
+    <head>
+        <style>
+            #timberland-region-map {
+            position: relative;
+            
+            #timberland-canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                cursor: pointer;
+            }
+            .fallback-image {
+                max-width: 100%;
+            }
+            .loader {
+                position: absolute;
+                top: calc('50% - 16px');
+                left: calc('50% - 16px');
+            }
+        }
+
+
+
+        .wrapper {
+            width: 600px;
+            max-width: 100%;
+            margin: 0 auto;
+            font-family: 'Josefin Sans', sans-serif;
+            h5 {
+                text-align: center;
+                text-transform: uppercase;
+            }
+        }
+        </style>
+    </head>
+    <body>
+        <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:600' rel='stylesheet' type='text/css'>
+        <div class="wrapper">
+            <h5>Hover over different regions, click to fire link</h5>
+            <div id="timberland-region-map" class="xs-margin-left-15 md-margin-left-35">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/timberland_map.png" alt="" class="fallback-image"/>
+                <canvas id="timberland-canvas"></canvas>
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/ajax-load.gif" alt="" class="loader" />
+            </div>
+        </div>
+        <script>
+            window.onload = function() {
+            //---------------INIT-------------
+            var canvas = document.getElementById("timberland-canvas"),
+            ctx = canvas.getContext("2d"),
+            hiddenImage = document.getElementById("timberland-region-map").getElementsByClassName("fallback-image"),
+            currentKey = 'midwest',
+            scaleFactor = 1,
+            originalScale = {},
+            debugmode = false,
+            xoffset = 0,
+            yoffset = 0,
+            urls = {
+                west: 'https://www.google.com/#q=west',
+                midwest: 'https://www.google.com/#q=midwest',
+                south: 'https://www.google.com/#q=south',
+                northeast: 'https://www.google.com/#q=northeast'
+            },
+            images = {
+                west: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/timberland_region_west.png',
+                midwest: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/timberland_region_midwest.png',
+                south: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/timberland_region_south.png',
+                northeast: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/383087/timberland_region_northeast.png'
+            },
+            polygons = {
+                west: [
+                    {x:50, y:0},
+                    {x:306, y:41},
+                    {x:293, y:191},
+                    {x:321, y:194},
+                    {x:318, y:262},
+                    {x:303, y:261},
+                    {x:292, y:352},
+                    {x:239, y:348},
+                    {x:215, y:362},
+                    {x:312, y:482},
+                    {x:0, y:472},
+                    {x:58, y:312},
+                    {x:2, y:170},
+                    {x:50, y:0}
+                ],
+                midwest: [
+                    {x:315, y:43},
+                    {x:515, y:45},
+                    {x:624, y:160},
+                    {x:630, y:196},
+                    {x:500, y:282},
+                    {x:430, y:280},
+                    {x:320, y:268},
+                    {x:325, y:195},
+                    {x:300, y:188},	
+                    {x:315, y:43}
+                ],
+                south: [
+                    {x:305, y:268},
+                    {x:500, y:282},
+                    {x:630, y:200},
+                    {x:663, y:197},
+                    {x:720, y:261},
+                    {x:655, y:356},
+                    {x:695, y:464},
+                    {x:647, y:472},
+                    {x:605, y:399},
+                    {x:397, y:453},
+                    {x:391, y:475},
+                    {x:343, y:475},
+                    {x:245, y:358},
+                    {x:297, y:362},
+                    {x:305, y:268}
+                ],
+                northeast: [
+                    {x:619, y:152},
+                    {x:740, y:23},
+                    {x:765, y:21},
+                    {x:786, y:67},
+                    {x:705, y:240},
+                    {x:664, y:194},
+                    {x:633, y:195},
+                    {x:619, y:152}
+                ]
+            };
+        
+            //------------FUNCTIONS-----------
+            Function.prototype.throttle = function (milliseconds, context) {
+                //prevents calls to a function before the allotted time has been reached
+                var baseFunction = this,
+                    lastEventTimestamp = null,
+                    limit = milliseconds;
+        
+                return function () {
+                    var self = context || this,
+                        args = arguments,
+                        now = Date.now();
+        
+                    if (!lastEventTimestamp || now - lastEventTimestamp >= limit) {
+                        lastEventTimestamp = now;
+                        baseFunction.apply(self, args);
+                    }
+                };
+            };
+        
+            function initialExecution(){
+                var lastObj = images[Object.keys(images)[Object.keys(images).length - 1]];
+                originalScale = {x:lastObj.width, y:lastObj.height};
+                resizeCanvas();
+                setScaleFactor();
+            }
+        
+            function preloadImages(){
+                //Preload all images and set the original image scale. Then resize/refresh the canvas		
+                Object.keys(images).forEach(function(key) {
+                    img = new Image();
+                    img.src = images[key];
+                    images[key] = img;
+                });
+                //onload of last image run initial execution
+                var lastObj = images[Object.keys(images)[Object.keys(images).length - 1]];
+                lastObj.onload = function(){
+                    initialExecution();		
+                    var elem = document.getElementById("timberland-region-map").getElementsByClassName("loader");
+                    elem[0].parentNode.removeChild(elem[0]);
+                }
+            }
+        
+            function resizeCanvas(){
+                //set absolutely positioned canvas height and width to that of the hidden image
+                canvas.width = hiddenImage[0].width;
+                canvas.height = hiddenImage[0].height;
+        
+                //clear the canvas
+                clearCanvas();
+        
+                //define the global xoffset and yoffset vars by getting the offset of the hidden image
+                var viewportOffset = hiddenImage[0].getBoundingClientRect();
+                yoffset = viewportOffset.top + window.scrollY;
+                xoffset = viewportOffset.left + window.scrollX;
+        
+                //Redraw
+                if(currentKey == 'none'){
+                    clearCanvas();
+                }else{
+                    drawImage(images[currentKey],0,0,canvas.width, canvas.height);
+                }
+            }
+        
+            function clearCanvas(){
+                //just blasts the canvas data
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        
+            function setScaleFactor(){
+                //define the scale factor
+                //a decimal percentage which represents the scale of the image relative to its native size
+                scaleFactor = canvas.width / originalScale.x;
+            }
+        
+            function drawImage(img,x,y,w,h){
+                //clear the canvas then draw the provided image
+                clearCanvas();
+                ctx.drawImage(img,x,y,w,h);
+        
+                //If debug mode is set we iterate through all of the points in the polygon objects
+                //then draw them as canvas strokes for debugging.
+                if(debugmode) {
+                    ctx.beginPath();
+                    Object.keys(polygons).forEach(function(key) {
+                        ctx.moveTo(scaleValue(polygons[key][0].x), scaleValue(polygons[key][0].y));
+                        for(var i = polygons[key].length; i--; ctx.lineTo(scaleValue(polygons[key][i].x), scaleValue(polygons[key][i].y)));
+                        ctx.stroke();				
+                    });
+                    ctx.closePath();
+                }
+            }
+        
+            function processHover(e){
+                //get the original key and the mouse coordinates
+                ogkey = currentKey;
+                coords = getRelativeMousePos(e, xoffset, yoffset);
+                
+                var BreakException= {};
+                try {
+                    //detect which polygon the pointer is in (if any)
+                    Object.keys(polygons).forEach(function(key) {
+                        if (isPointInPoly(polygons[key], coords)) {
+                            currentKey = key;
+                            throw BreakException;
+                        }else{
+                            currentKey = 'none';
+                        }
+                    });
+                } catch(g) {
+                    if (g!==BreakException) throw g;
+                }
+        
+                //only if the global currentKey value has changed will we redraw
+                if(currentKey != ogkey){
+                    if(currentKey == 'none'){
+                        clearCanvas();
+                    }else{
+                        drawImage(images[currentKey],0,0,canvas.width, canvas.height);
+                    }
+                }
+            }
+        
+            function getRelativeMousePos(e, xoffset, yoffset){
+                //get mouse position relative to the canvas object
+                var ex = e.pageX - xoffset;
+                var wy = e.pageY - yoffset;
+                return {x:ex,y:wy};
+            }
+        
+            function isPointInPoly(poly, point) {
+                //draw vectors from mouse location to detect of a given point is within a polygon
+                var x = point.x, y = point.y;
+                var inside = false;
+                for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+                    var xi = scaleValue(poly[i].x), yi = scaleValue(poly[i].y);
+                    var xj = scaleValue(poly[j].x), yj = scaleValue(poly[j].y);
+                    var intersect = ((yi > y) != (yj > y))
+                        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                    if (intersect) inside = !inside;
+                }
+                return inside;
+            }
+        
+            function scaleValue(value){
+                //scale a provided value by the scalefactor
+                //this way we can define the polygons at the native image size
+                //but it scales the values relative to the hidden image element
+                return value*scaleFactor;
+            }
+        
+        
+            //------------EXECUTION-----------
+            preloadImages();
+        
+            //---------EVENT BINDINGS--------
+            window.addEventListener('resize', function () {
+                resizeCanvas();
+                setScaleFactor();
+            });
+        
+            canvas.addEventListener('mousemove', function (e) {
+                processHover(e);
+            }.throttle(50));
+        
+            canvas.addEventListener('mouseleave', function (e) {
+                currentKey = 'none';
+                resizeCanvas();
+            });
+        
+            canvas.addEventListener('click', function (e) {
+                if(debugmode) {
+                    //Set the global var debugmode = true; to get coordinates in console on click.
+                    //It will also enable the drawing of your polygons
+                    //Quickly build poly objects by clicking the points in order then copying out of console.
+                    coords = getRelativeMousePos(e, xoffset, yoffset);
+                    console.log('{x:'+(coords.x)+', y:'+coords.y+'},');	
+                }else{
+                    if(currentKey!='none')window.open(urls[currentKey],currentKey);
+                }
+            });
+        };
+        </script>
+    </body>
+</html>

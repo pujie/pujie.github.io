@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <style>
+            polygon {
+            stroke: black;
+            }
+        </style>
+    </head>
+    <body>
+        <svg id="svg"></svg>
+    </body>
+    <script>
+        var svg = document.getElementById("svg");
+        var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        svg.appendChild(polygon);
+
+        var array = arr = [ [ 0,0 ], 
+                    [ 50,50 ],
+                    [ 25,25 ], ];
+            ssss = [[322,242],[315,243],[316,254],[312,266],[297,266],[302,248],[297,237],[308,232],[316,231]]
+
+        for (value of ssss) {
+        var point = svg.createSVGPoint();
+        point.x = value[0];
+        point.y = value[1];
+        polygon.points.appendItem(point);
+        }
+    </script>
+</html>
